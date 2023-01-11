@@ -29,6 +29,7 @@
 //--------------------LIBFT--------------------//
 //---------------------------------------------//
 
+int			ft_issign(int c);
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
 int			ft_isalnum(int c);
@@ -163,7 +164,7 @@ t_arg_spec	*init_arg(const char *fmt);
 t_lst_arg	*ft_parse_format(const char *fmt);
 
 /*Error functions*/
-void		err_msg(char *msg, int c);
+void		err_msg_ptf(char *msg, int c);
 int			flag_comp_err(t_arg_spec *spec);
 void		flag_err_msg(int errno);
 int			flag_error(t_arg_spec *spec);
