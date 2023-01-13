@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 14:48:19 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/11 15:32:51 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/13 15:03:47 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_near_sorted(t_stack *stk)
 {
-	int cnt;
+	int	cnt;
 
 	cnt = 1;
 	while (stk && stk->next)
@@ -41,9 +41,9 @@ int	is_sorted(t_stack *stk)
 	return (1);
 }
 
-t_stack *get_min(t_stack *stk)
+t_stack	*get_min(t_stack *stk)
 {
-	t_stack *min;
+	t_stack	*min;
 
 	min = stk;
 	while (stk)
@@ -55,9 +55,9 @@ t_stack *get_min(t_stack *stk)
 	return (min);
 }
 
-t_stack *get_max(t_stack *stk)
+t_stack	*get_max(t_stack *stk)
 {
-	t_stack *max;
+	t_stack	*max;
 
 	max = stk;
 	while (stk)
@@ -69,14 +69,14 @@ t_stack *get_max(t_stack *stk)
 	return (max);
 }
 
-size_t find_index_pos(t_stack *stk, size_t idx)
+size_t index_pos(t_stack *stk, size_t idx)
 {
 	size_t pos;
 
 	pos = 0;
 	while (stk)
 	{
-		if (stk->idx > idx)
+		if (stk->idx == idx)
 			return (pos);
 		pos++;
 		stk = stk->next;

@@ -11,7 +11,7 @@ LIB_DIR		= libft/
 
 #Flags, Libraries and Includes
 INCLUDES	= -I ./inc/
-CFLAGS		= -Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS		= -Wall -Werror -Wextra
 LIBFT		= $(LIB_DIR)libft.a
 LDFLAGS 	= -L $(LIB_DIR) -lft
 

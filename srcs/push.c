@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 14:50:15 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/10 19:51:03 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/13 19:03:02 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 void	push(t_stack **stk_src, t_stack **stk_dst)
 {
-	t_stack *aft_top;
-	
+	t_stack	*aft_top;
+
 	if (!*stk_src)
 		return ;
 	aft_top = (*stk_src)->next;
@@ -35,7 +35,7 @@ void	push(t_stack **stk_src, t_stack **stk_dst)
 
 void	pa(t_stack **a_stk, t_stack **b_stk)
 {
-	push(a_stk, b_stk);
+	push(b_stk, a_stk);
 	ft_printf("pa\n");
 }
 
@@ -46,6 +46,6 @@ void	pa(t_stack **a_stk, t_stack **b_stk)
 
 void	pb(t_stack **a_stk, t_stack **b_stk)
 {
-	push(b_stk, a_stk);
-	ft_printf("pa\n");
+	push(a_stk, b_stk);
+	ft_printf("pb\n");
 }

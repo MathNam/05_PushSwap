@@ -142,7 +142,7 @@ typedef struct s_output
 	ssize_t	size;
 }	t_output;
 
-/*Function for list - used in Parsing functions*/
+/*Functions for list - used in Parsing functions*/
 void		del_arg(t_arg_spec *spec);
 t_lst_arg	*ft_lstnew_arg(t_arg_spec *spec);
 t_lst_arg	*ft_lstlast_arg(t_lst_arg *lst);
