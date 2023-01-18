@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 13:54:50 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/12 11:39:33 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/17 12:38:42 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_stack	*stk_new(int val, int idx)
 	stk->val = val;
 	stk->idx = idx;
 	stk->run = -1;
+	stk->cost = 0;
 	stk->next = NULL;
 	return (stk);
 }

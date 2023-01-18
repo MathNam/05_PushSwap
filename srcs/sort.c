@@ -6,87 +6,27 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:06:08 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/13 19:08:06 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:13:43 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/push_swap.h"
 
-/*void	id_invariant(t_stack *stk)
+void	insertion_sort(t_stack **a_stk, t_stack **b_stk, int max_run)
 {
-	size_t	*idx_arr;
-	size_t	size;
-	size_t	i;
+	int	n;
 
-	size = stk_size(stk);
-	idx_arr = ft_setalloc(4 * size * sizeof(size_t), 1, 0);
-	if (!idx_arr)
-		return ;
-	i = 0;
-	while (stk)
-	{
-		idx_arr[i] = stk->idx;
-		idx_arr[i + size] = stk->idx;
-		stk = stk->next;
-	}
-	free(idx_arr);
-}*/
-
-int	id_run(t_stack *stk, size_t run_size)
-{
-	int	n_run;
-
-	n_run = 0;
-	//id_invariant(stk);
-	while (stk)
-	{
-		if (stk->run != 0)
-			stk->run = stk->idx / run_size + 1;
-		if (stk->run > n_run)
-			n_run = stk->run;
-		stk = stk->next;
-	}
-	return (n_run);
-}
-
-void	push_run(t_stack **a_stk, t_stack **b_stk, int id_run, size_t run_size)
-{
-	size_t	idx_median;
-	size_t	size;
-
-	size = stk_size(*a_stk);
-	idx_median = run_size * (id_run - 1) + run_size / 2;
-	while (size > 0)
-	{
-		if ((*a_stk)->run == id_run && (*a_stk)->idx > idx_median)
-			pb(a_stk, b_stk);
-		else if ((*a_stk)->run == id_run && (*a_stk)->idx <= idx_median)
-		{
-			pb(a_stk, b_stk);
-			if (*a_stk && (*a_stk)->run != id_run)
-			{
-				rr(a_stk, b_stk);
-				size--;
-			}
-			else
-				rb(b_stk);
-		}
-		else
-			ra(a_stk);
-		size--;
-	}
-}
-
-void	insertion_sort(t_stack **a_stk, t_stack **b_stk)
-{
-	while (*b_stk)
+	n = 1;
+	while (n <= max_run)
 	{
 		if (!(*a_stk))
 			pa(a_stk, b_stk);
-		index_to_top(a_stk, dest_idx(*a_stk, (*b_stk)->idx), 'A');
-		pa(a_stk, b_stk);
+		if (!optimal_idx_top(a_stk, b_stk, n))
+			n++;
+		else
+			pa(a_stk, b_stk);
 	}
-	index_to_top(a_stk, 0, 'A');
+	idx_top(a_stk, 0, 'A');
 }
 
 void	short_sort(t_stack **a_stk, t_stack **b_stk)
@@ -106,24 +46,30 @@ void	short_sort(t_stack **a_stk, t_stack **b_stk)
 			sa(a_stk);
 	}
 	if (stk_size(*b_stk) != 0)
-		insertion_sort(a_stk, b_stk);
+		insertion_sort(a_stk, b_stk, -1);
 }
 
 void	long_sort(t_stack **a_stk, t_stack **b_stk)
 {
-	size_t	run_size;
-	int		n_run;
+	static size_t	run_size[5] = {16, 32, 64, 128, 256};
+	int				max_run;
+	int				run_1;
+	int				run_2;
 
-	run_size = 64;
 	if (is_sorted(*a_stk))
 		return ;
-	n_run = id_run(*a_stk, run_size);
-	while (n_run > 0)
+	max_run = id_run(*a_stk, run_size[2]);
+	run_1 = max_run / 2;
+	run_2 = max_run / 2 + 1;
+	while (run_1 > 0 && run_2 <= max_run)
 	{
-		push_run(a_stk, b_stk, n_run, run_size);
-		n_run--;
+		push_run(a_stk, b_stk, run_1, run_2);
+		run_1--;
+		run_2++;
 	}
-	insertion_sort(a_stk, b_stk);
+	if (max_run % 2)
+		push_run(a_stk, b_stk, run_2, -1);
+	insertion_sort(a_stk, b_stk, max_run);
 	return ;
 }
 

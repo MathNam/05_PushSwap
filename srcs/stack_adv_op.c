@@ -6,13 +6,13 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 14:50:23 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/13 19:07:55 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:58:06 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/push_swap.h"
 
-size_t	dest_idx(t_stack *dst_stk, size_t idx)
+t_stack	*search_dst(t_stack *dst_stk, size_t idx_src)
 {
 	t_stack	*min;
 	t_stack	*max;
@@ -20,52 +20,97 @@ size_t	dest_idx(t_stack *dst_stk, size_t idx)
 
 	min = get_min(dst_stk);
 	max = get_max(dst_stk);
-	if (idx < min->idx)
-		return (min->idx);
-	if (idx > max->idx && max->next)
-		return (max->next->idx);
-	if ((idx > max->idx && max->next)
-		|| (idx < dst_stk->idx && idx > stk_last(dst_stk)->idx))
-		return (dst_stk->idx);
+	if (idx_src < min->idx)
+		return (min);
+	if (idx_src > max->idx && max->next)
+		return (max->next);
+	if ((idx_src > max->idx && max->next)
+		|| (idx_src < dst_stk->idx && idx_src > stk_last(dst_stk)->idx))
+		return (dst_stk);
 	node = dst_stk;
 	while (node->next)
 	{
-		if (idx > node->idx && idx < node->next->idx)
-			return (node->next->idx);
+		if (idx_src > node->idx && idx_src < node->next->idx)
+			return (node->next);
 		node = node->next;
 	}
-	return (dst_stk->idx);
+	return (dst_stk);
 }
 
-ssize_t	cost_idx_top(t_stack *stk, size_t idx)
-{
-	size_t	size;
-	size_t	pos_idx;
-
-	size = stk_size(stk);
-	pos_idx = index_pos(stk, idx);
-	if (pos_idx <= size - pos_idx)
-		return ((ssize_t)pos_idx);
-	else
-		return ((ssize_t)(pos_idx - size));
-}
-
-void	index_to_top(t_stack **stk, size_t idx, char id_stack)
+void	idx_top(t_stack **stk, size_t idx, char id_stack)
 {
 	ssize_t		cost;
 	static void	(*op[4])(t_stack **)
 		= {ra, rra, rb, rrb};
 	size_t		ft_id;
 
+	if (!(*stk))
+		return ;
 	cost = cost_idx_top(*stk, idx);
 	ft_id = 0;
+	if (id_stack == 'B')
+		ft_id += 2;
 	if (cost < 0)
 	{
 		ft_id++;
 		cost *= -1;
 	}
-	if (id_stack == 'B')
-		ft_id *= 2;
 	while (cost-- > 0)
 		op[ft_id](stk);
+}
+
+t_stack	*optimal_node(t_stack *dst_stk, t_stack *src_stk, int run_id)
+{
+	t_stack	*op_node;
+	t_stack	*node;
+	int		min_cost;
+	int		cost;
+
+	op_node = NULL;
+	node = src_stk;
+	min_cost = INT32_MAX;
+	while (node)
+	{
+		if (node->run == run_id)
+		{
+			cost = set_cost(dst_stk, src_stk,
+					search_dst(dst_stk, node->idx), node);
+			if (cost < min_cost)
+			{	
+				min_cost = cost;
+				op_node = node;
+			}
+		}
+		node = node->next;
+	}
+	if (op_node)
+		set_cost(dst_stk, src_stk, search_dst(dst_stk, op_node->idx), op_node);
+	return (op_node);
+}
+
+int	optimal_idx_top(t_stack **a_stk, t_stack **b_stk, int run_id)
+{
+	t_stack	*node_b;
+	t_stack	*node_a;
+
+	node_b = optimal_node(*a_stk, *b_stk, run_id);
+	if (!node_b)
+		return (0);
+	node_a = search_dst(*a_stk, node_b->idx);
+	while (node_a->cost != 0 || node_b->cost != 0)
+	{
+		if (node_a->cost > 0 && node_b->cost > 0)
+			cost_rr(a_stk, b_stk, &(node_a->cost), &(node_b->cost));
+		else if (node_a->cost > 0)
+			cost_rs(a_stk, &(node_a->cost), 'A');
+		else if (node_b->cost > 0)
+			cost_rs(b_stk, &(node_b->cost), 'B');
+		else if (node_a->cost < 0 && node_b->cost < 0)
+			cost_rrr(a_stk, b_stk, &(node_a->cost), &(node_b->cost));
+		else if (node_a->cost < 0)
+			cost_rrs(a_stk, &(node_a->cost), 'A');
+		else if (node_b->cost < 0)
+			cost_rrs(b_stk, &(node_b->cost), 'B');
+	}
+	return (1);
 }

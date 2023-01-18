@@ -6,29 +6,11 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 14:48:19 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/13 15:03:47 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:55:43 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/push_swap.h"
-
-int	is_near_sorted(t_stack *stk)
-{
-	int	cnt;
-
-	cnt = 1;
-	while (stk && stk->next)
-	{
-		if (stk->idx + 1 != stk->next->idx)
-		{
-			if (cnt == 1)
-				return (0);
-			cnt--;
-		}
-		stk = stk->next;
-	}
-	return (1);
-}
 
 int	is_sorted(t_stack *stk)
 {
@@ -69,9 +51,20 @@ t_stack	*get_max(t_stack *stk)
 	return (max);
 }
 
-size_t index_pos(t_stack *stk, size_t idx)
+t_stack	*get_idx(t_stack *stk, size_t idx)
 {
-	size_t pos;
+	while (stk)
+	{
+		if (stk->idx == idx)
+			return (stk);
+		stk = stk->next;
+	}
+	return (NULL);
+}
+
+size_t	idx_pos(t_stack *stk, size_t idx)
+{
+	size_t	pos;
 
 	pos = 0;
 	while (stk)
