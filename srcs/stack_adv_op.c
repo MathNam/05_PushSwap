@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 14:50:23 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/18 17:58:06 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:22:07 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,8 @@ t_stack	*search_dst(t_stack *dst_stk, size_t idx_src)
 
 	min = get_min(dst_stk);
 	max = get_max(dst_stk);
-	if (idx_src < min->idx)
+	if (idx_src < min->idx || idx_src > max->idx)
 		return (min);
-	if (idx_src > max->idx && max->next)
-		return (max->next);
-	if ((idx_src > max->idx && max->next)
-		|| (idx_src < dst_stk->idx && idx_src > stk_last(dst_stk)->idx))
-		return (dst_stk);
 	node = dst_stk;
 	while (node->next)
 	{
