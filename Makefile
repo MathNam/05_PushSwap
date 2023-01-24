@@ -1,5 +1,5 @@
 #Compiler and Linker
-CC          = gcc
+CC          = cc
 
 #Target .exe
 TARGET		= push_swap
