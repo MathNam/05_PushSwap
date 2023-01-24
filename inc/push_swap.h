@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 15:01:58 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/18 17:58:11 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/24 14:13:08 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,22 @@ void	push_run(t_stack **a_stk, t_stack **b_stk, int run_1, int run_2);
 /*Sorting functions*/
 int		is_sorted(t_stack *stk);
 int		is_near_sorted(t_stack *stk);
-void	insertion_sort(t_stack **a_stk, t_stack **b_stk, int max_run);
+void	insertion_sort(t_stack **a_stk, t_stack **b_stk);
+void	cost_sort(t_stack **a_stk, t_stack **b_stk, int max_run);
 void	short_sort(t_stack **a_stk, t_stack **b_stk);
 void	sort(t_stack **a_stk, t_stack **b_stk);
 
+/*Input processing functions*/
+int		is_number(char *arg);
+int		*init_data(char **av, size_t size);
+int		indexing(int *data, size_t size);
+t_stack	*init_stack(int *data, size_t size);
 t_stack	*get_input(int ac, char **av);
 
+/*Checker functions*/
+int		exit_err(t_stack **a_stk, t_stack **b_stk);
+int		push_swap_op(t_stack **a_stk, t_stack **b_stk, char *op);
+int		rotate_op(t_stack **a_stk, t_stack **b_stk, char *op);
+int		exec_op(t_stack **a_stk, t_stack **b_stk, char *op);
 
 #endif

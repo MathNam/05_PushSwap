@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 14:50:07 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/16 11:00:06 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:16:00 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	swap(t_stack **stk)
 {
 	t_stack	*top;
 
-	if (!*stk || !(*stk)->next)
+	if (stk_size(*stk) < 2)
 		return ;
 	top = *stk;
 	*stk = (*stk)->next;

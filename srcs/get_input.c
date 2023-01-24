@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 17:59:21 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/16 10:39:23 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/24 15:54:58 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	is_number(char *arg)
 			s = 0;
 		arg++;
 	}
+	if (!ft_isdigit(*arg))
+		return (0);
 	while (*arg == '0')
 		arg++;
 	if (ft_strlen(arg) > 10)
@@ -38,7 +40,7 @@ int	is_number(char *arg)
 		return (0);
 	while (*arg && ft_isdigit(*arg))
 		arg++;
-	if (*arg != '\0' && !ft_isdigit(*arg))
+	if (*arg != '\0')
 		return (0);
 	return (1);
 }
@@ -132,13 +134,13 @@ t_stack	*get_input(int ac, char **av)
 	size_t	size;
 
 	if (ac < 2)
-		return (err_msg(), NULL);
+		return (NULL);
 	size = ac - 1;
 	data = init_data(av, size);
 	if (!data)
-		return (err_msg(), NULL);
+		return (NULL);
 	if (!indexing(data, size))
-		return (free(data), err_msg(), NULL);
+		return (free(data), NULL);
 	stack = init_stack(data, size);
 	return (free(data), stack);
 }

@@ -3,11 +3,14 @@ CC          = gcc
 
 #Target .exe
 TARGET		= push_swap
+CHECKER		= checker
 
 #Directories, Source, Objects, Lib
-SRCS_DIR	= srcs/
-OBJS_DIR	= objs/
-LIB_DIR		= libft/
+SRCS_DIR		= srcs/
+BNS_SRCS_DIR	= srcs_bns/
+MAIN_DIR		= main/
+OBJS_DIR		= objs/
+LIB_DIR			= libft/
 
 #Flags, Libraries and Includes
 INCLUDES	= -I ./inc/
@@ -38,6 +41,7 @@ IWHITE		= \033[47m
 
 #Counter
 COUNT		= 0
+COUNT_BONUS	= 0
 
 #---------------------------------------------------------------------------------
 #Do not edit below this line
@@ -46,17 +50,20 @@ COUNT		= 0
 #---------------------------------------------------------------------------------
 #Source and object files
 SRCS		= $(wildcard $(SRCS_DIR)*.c)
+BNS_SRCS	= $(wildcard $(BNS_SRCS_DIR)*.c)
 
 #Object files
 OBJS		= $(addprefix $(OBJS_DIR), $(notdir $(SRCS:.c=.o)))
+BNS_OBJS	= $(addprefix $(OBJS_DIR), $(notdir $(BNS_SRCS:.c=.o)))
 #---------------------------------------------------------------------------------
 
 #Default Make
-all: $(OBJS_DIR) $(LIBFT) $(TARGET)
+all: $(OBJS_DIR) $(LIBFT) $(TARGET) bonus
 
 #Compile
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) $(MAIN_DIR)$(TARGET).c
 	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
+	@$(eval COUNT=$(shell echo $$(($(COUNT)+1))))
 	@echo "]"
 	@echo "$(GREEN)Push_Swap .exe created ->$(RESET)"
 	@echo "$(COUNT) files compiled"
@@ -71,25 +78,40 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 $(LIBFT):
 	@make --no-print-directory all -C $(LIB_DIR)
 
+#Bonus command
+bonus: $(OBJS_DIR) $(CHECKER)
+
+$(CHECKER): $(OBJS) $(BNS_OBJS) $(MAIN_DIR)$(CHECKER).c
+	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
+	@$(eval COUNT_BONUS=$(shell echo $$(($(COUNT_BONUS)+1))))
+	@echo "$(GREEN)checker .exe added ->$(RESET)"
+	@echo "$(COUNT_BONUS) files compiled"
+	@echo "____________________\n"
+
+$(OBJS_DIR)%.o: $(BNS_SRCS_DIR)%.c
+	@$(CC) $(CFLAGS) $(INCLUDES) -c  $< -o $@
+	@$(eval COUNT_BONUS=$(shell echo $$(($(COUNT_BONUS)+1))))
+
 #Directories
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 
-#Bonus command
-bonus: all
+$(BNS_OBJS_DIR):
+	@mkdir -p $(BNS_OBJS_DIR)
 
 #Clean only Object files
 clean:
-	@rm -rf $(OBJS_DIR)
+	@rm -rf $(OBJS_DIR) $(BNS_OBJS_DIR)
 	@make --no-print-directory clean -C $(LIB_DIR)
 
 #Full Clean, Object and Binary files
 fclean: clean
 	@rm -f $(TARGET)
+	@rm -f $(CHECKER)
 	@rm -f $(LIBFT)
 
 #Remake
 re: fclean all
 
 #Non-File Targets
-.PHONY: all clean fclean re
+.PHONY: all bonus clean fclean re

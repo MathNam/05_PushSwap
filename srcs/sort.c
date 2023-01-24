@@ -6,23 +6,35 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:06:08 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/18 18:13:43 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/19 16:28:08 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/push_swap.h"
 
-void	insertion_sort(t_stack **a_stk, t_stack **b_stk, int max_run)
+void	insertion_sort(t_stack **a_stk, t_stack **b_stk)
 {
-	int	n;
-
-	n = 1;
-	while (n <= max_run)
+	while (*b_stk)
 	{
 		if (!(*a_stk))
 			pa(a_stk, b_stk);
-		if (!optimal_idx_top(a_stk, b_stk, n))
-			n++;
+		idx_top(a_stk, search_dst(*a_stk, (*b_stk)->idx)->idx, 'A');
+		pa(a_stk, b_stk);
+	}
+	idx_top(a_stk, 0, 'A');
+}
+
+void	cost_sort(t_stack **a_stk, t_stack **b_stk, int max_run)
+{
+	int	run_id;
+
+	run_id = 1;
+	while (run_id <= max_run)
+	{
+		if (!(*a_stk))
+			pa(a_stk, b_stk);
+		if (!optimal_idx_top(a_stk, b_stk, run_id))
+			run_id++;
 		else
 			pa(a_stk, b_stk);
 	}
@@ -46,7 +58,7 @@ void	short_sort(t_stack **a_stk, t_stack **b_stk)
 			sa(a_stk);
 	}
 	if (stk_size(*b_stk) != 0)
-		insertion_sort(a_stk, b_stk, -1);
+		insertion_sort(a_stk, b_stk);
 }
 
 void	long_sort(t_stack **a_stk, t_stack **b_stk)
@@ -69,7 +81,7 @@ void	long_sort(t_stack **a_stk, t_stack **b_stk)
 	}
 	if (max_run % 2)
 		push_run(a_stk, b_stk, run_2, -1);
-	insertion_sort(a_stk, b_stk, max_run);
+	cost_sort(a_stk, b_stk, max_run);
 	return ;
 }
 

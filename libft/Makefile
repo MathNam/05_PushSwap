@@ -1,10 +1,10 @@
 #Compiler and Linker
 CC          = gcc
 
-#The Target .a
+#Target .a
 TARGET		= libft.a
 
-#The Directories, Source, Objects
+#Directories, Sources, Objects
 SRCS_DIR	= srcs/
 SUB_DIRS	= lib/ gnl/ ftprintf/
 OBJS_DIR	= objs/
@@ -24,7 +24,7 @@ PURPLE = \033[1;35m
 CYAN = \033[0;96m
 WHITE = \033[0;97m
 
-# Inverted, i.e. colored backgrounds
+#Inverted, i.e. colored backgrounds
 IGREY=\033[40m
 IRED=\033[41m
 IGREEN=\033[42m

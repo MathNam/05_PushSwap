@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 10:28:01 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/18 17:21:03 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/19 16:19:53 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	assign_inv_run(t_stack *stk, size_t	*arr, size_t size)
 	node = get_min(stk);
 	while (size > 0)
 	{
-		if (*cnt_arr == max && *arr > node->idx)
+		if (*cnt_arr == max && *arr >= node->idx)
 		{
 			node = get_idx(stk, *arr);
 			node->run = 0;
@@ -65,13 +65,13 @@ void	id_invariant(t_stack *stk)
 	arr = init_inv_array(stk, size);
 	if (!arr)
 		return ;
-	i = (ssize_t)size - 2;
+	i = (ssize_t)size - 1;
 	while (i >= 0)
 	{
 		j = i + 1;
 		while (j < size)
 		{
-			if (arr[j] > arr[i] && arr[size + i] <= arr[size + j])
+			if (arr[j] > arr[i] && arr[size + j] >= arr[size + i])
 				arr[size + i] = arr[size + j] + 1;
 			j++;
 		}

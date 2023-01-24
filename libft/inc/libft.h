@@ -93,7 +93,7 @@ t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 //---------------------------------------------//
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4096
+#  define BUFFER_SIZE 256
 # endif
 
 # ifndef OPEN_MAX
@@ -106,6 +106,8 @@ t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 size_t		ft_linelen(char *text);
 char		*ft_strjoin_gnl(char *txt, char *add);
+char		*getline_and_store(char *store, char *text);
+char		*read_file(char *store, int fd);
 char		*get_next_line(int fd);
 
 //---------------------------------------------//

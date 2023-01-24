@@ -6,92 +6,97 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:20:33 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/05 16:11:37 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:39:41 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/libft.h"
 
-char	*mem_offset(const char *src, size_t offset)
+
+char	*getline_and_trim(char *store)
 {
-	char	*arr;
+	char	*line;
+	size_t	l_line;
 	size_t	i;
 
+	l_line = ft_linelen(store);
+	if (store[l_line] == '\n')
+		l_line++;
+	line = malloc(sizeof(char) * l_line + 1);
+	if (!line || l_line == 0)
+		return (free(line), NULL);
+	line[l_line] = 0;
 	i = 0;
-	src += offset;
-	arr = malloc(ft_strlen(src) + 1);
-	if (arr && src)
+	while (i < l_line && *store)
+		line[i++] = *store++;
+	while (*store)
 	{
-		while (*src)
-			arr[i++] = *src++;
-		arr[i] = 0;
-		return (arr);
+		*(store - l_line) = *store;
+		store++;
 	}
-	return (NULL);
-}
-
-char	*get_and_trim(char **text)
-{
-	char	*newtext;
-	char	*line;
-	size_t	l;
-
-	l = ft_linelen(*text);
-	if ((*text)[l] == '\n')
-		l++;
-	line = malloc(sizeof(char) * l + 1);
-	newtext = mem_offset(*text, l);
-	if (!line || !newtext || l == 0)
-		return (free(line), free(newtext), NULL);
-	line[l] = 0;
-	while (l-- > 0)
-		line[l] = (*text)[l];
-	free(*text);
-	*text = newtext;
+	*(store - l_line) = 0;
 	return (line);
 }
 
-int	read_file(char **text, int fd)
+char	*getline_and_store(char *store, char *text)
+{
+	char	*line;
+	size_t	l_line;
+	size_t	i;
+
+	l_line = ft_linelen(text);
+	if (text[l_line] == '\n')
+		l_line++;
+	line = malloc(sizeof(char) * l_line + 1);
+	if (!line || l_line == 0)
+		return (free(line), NULL);
+	line[l_line] = 0;
+	i = 0;
+	while (i < l_line && *text)
+		line[i++] = *text++;
+	while (*text)
+		store[i++ - l_line] = *text++;
+	store[i - l_line] = 0;
+	return (line);
+}
+
+char	*read_file(char *store, int fd)
 {
 	char	*buffer;
+	char	*text;
+	char	*line;
 	ssize_t	rbytes;
 
 	buffer = malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (RDERR);
+	text = malloc(ft_strlen(store) + 1);
+	if (!buffer || !text)
+		return (free(text), free(buffer), NULL);
+	ft_memcpy(text, store, ft_strlen(store) + 1);
 	rbytes = 1;
-	while (rbytes > 0)
+	while (rbytes > 0 && text[ft_linelen(text)] != '\n')
 	{
 		rbytes = read(fd, buffer, BUFFER_SIZE);
 		if (rbytes == -1)
-			return (free(buffer), RDERR);
+			break ;
 		buffer[rbytes] = 0;
-		*text = ft_strjoin_gnl(*text, buffer);
-		if (buffer[ft_linelen(buffer)] == '\n')
-			return (free(buffer), NEWLINE);
+		text = ft_strjoin_gnl(text, buffer);
 	}
-	return (free(buffer), EOF);
+	line = getline_and_store(store, text);
+	return (free(text), free(buffer), line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*text[OPEN_MAX];
+	static char	store[BUFFER_SIZE];
 	char		*line;
-	int			file_status;
 
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!text[fd])
-	{
-		text[fd] = ft_calloc(1, 1);
-		if (!text[fd])
-			return (NULL);
-	}
-	file_status = 0;
-	if (text[fd][ft_linelen(text[fd])] == 0)
-		file_status = read_file(&text[fd], fd);
-	if ((*text[fd] == 0 && file_status == EOF) || file_status == RDERR)
-		return (free(text[fd]), text[fd] = NULL, NULL);
-	line = get_and_trim(&text[fd]);
+	if (store[ft_linelen(store)] == '\n')
+		line = getline_and_trim(store);
+	else
+		line = read_file(store, fd);
+	if (!line)
+		return (NULL);
 	return (line);
 }

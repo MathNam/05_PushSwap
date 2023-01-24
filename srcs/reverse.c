@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 14:50:49 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/18 16:42:37 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:15:36 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	rev_rotate(t_stack **stk)
 	t_stack	*tail;
 	t_stack	*pre_tail;
 
-	if (!*stk || !(*stk)->next)
+	if (stk_size(*stk) < 2)
 		return ;
 	tail = stk_last(*stk);
 	pre_tail = stk_lasttwo(*stk);
