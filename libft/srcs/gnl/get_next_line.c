@@ -6,12 +6,11 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:20:33 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/24 17:39:41 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:49:23 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/libft.h"
-
 
 char	*getline_and_trim(char *store)
 {
