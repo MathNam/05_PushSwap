@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 15:01:58 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/24 14:13:08 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:55:11 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	rrb(t_stack **b_stk);
 void	rrr(t_stack **a_stk, t_stack **b_stk);
 
 /*Cost functions - Determine cost for operations*/
-long	rcost_idx_top(t_stack *stk, size_t idx);
-long	rrcost_idx_top(t_stack *stk, size_t idx);
+long	rcost(t_stack *stk, size_t idx);
+long	rrcost(t_stack *stk, size_t idx);
 long	cost_idx_top(t_stack *stk, size_t idx);
 long	set_cost(t_stack *dst_stk, t_stack *src_stk,
 			t_stack *node_d, t_stack *node_s);

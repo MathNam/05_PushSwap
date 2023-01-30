@@ -63,7 +63,9 @@ all: $(OBJS_DIR) $(LIBFT) $(TARGET) bonus
 #Compile
 $(TARGET): $(OBJS) $(MAIN_DIR)$(TARGET).c
 	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
+	@if [ $(COUNT) = 0 ]; then echo -n "["; fi
 	@$(eval COUNT=$(shell echo $$(($(COUNT)+1))))
+	@echo -n "$(YELLOW)$(IGREY).$(RESET)"
 	@echo "]"
 	@echo "$(GREEN)Push_Swap .exe created ->$(RESET)"
 	@echo "$(COUNT) files compiled"
@@ -83,7 +85,9 @@ bonus: $(OBJS_DIR) $(CHECKER)
 
 $(CHECKER): $(OBJS) $(BNS_OBJS) $(MAIN_DIR)$(CHECKER).c
 	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
+	@if [ $(COUNT_BONUS) = 0 ]; then echo -n "["; fi
 	@$(eval COUNT_BONUS=$(shell echo $$(($(COUNT_BONUS)+1))))
+	@echo -n "$(YELLOW)$(IGREY).$(RESET)"
 	@echo "$(GREEN)checker .exe added ->$(RESET)"
 	@echo "$(COUNT_BONUS) files compiled"
 	@echo "____________________\n"

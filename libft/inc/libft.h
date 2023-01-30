@@ -93,7 +93,7 @@ t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 //---------------------------------------------//
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 256
+#  define BUFFER_SIZE 1024
 # endif
 
 # ifndef OPEN_MAX
