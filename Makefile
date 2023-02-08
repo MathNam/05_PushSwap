@@ -1,121 +1,206 @@
-#Compiler and Linker
-CC          = cc
+#______________________________________________________________________________#
+############################### Target Names ###################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
 
-#Target .exe
-TARGET		= push_swap
-CHECKER		= checker
+# Name
+NAME	= ./push_swap
+CHECKER	= ./checker
 
-#Directories, Source, Objects, Lib
-SRCS_DIR		= srcs/
-BNS_SRCS_DIR	= srcs_bns/
-MAIN_DIR		= main/
-OBJS_DIR		= objs/
-LIB_DIR			= libft/
+#______________________________________________________________________________#
+############################### Compiler #######################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
 
-#Flags, Libraries and Includes
-INCLUDES	= -I ./inc/
-CFLAGS		= -Wall -Werror -Wextra
-LIBFT		= $(LIB_DIR)libft.a
+# Compiler
+CC = cc 
+
+# Compiler Flags
+CFLAGS = -Wall -Wextra -Werror
+
+#______________________________________________________________________________#
+############################### Libraries ######################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+# Libft
+LIB_DIR		= ./libft
+LIBFT		= $(LIB_DIR)/libft.a
 LDFLAGS 	= -L $(LIB_DIR) -lft
 
-#Colors
-RESET		= \033[0;39m
-GRAY		= \033[0;90m
-RED			= \033[1;31m
-GREEN		= \033[1;32m
-YELLOW		= \033[0;93m
-BLUE		= \033[0;34m
-PURPLE		= \033[1;35m
-CYAN		= \033[0;96m
-WHITE		= \033[0;97m
+#______________________________________________________________________________#
+############################### Print Variables ################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
 
-# Inverted, i.e. colored backgrounds
-IGREY		= \033[40m
-IRED		= \033[41m
-IGREEN		= \033[42m
-IYELLOW		= \033[43m
-IBLUE		= \033[44m
-IPURPLE		= \033[45m
-ICYAN		= \033[46m
-IWHITE		= \033[47m
+# Reset
+NC = \033[0m
 
-#Counter
-COUNT		= 0
-COUNT_BONUS	= 0
+# Colors
+YELLOW = \033[0;33m
+GREEN = \033[0;32m
+BLUE = \033[0;34m
+RED = \033[0;31m
+PURPLE = \033[0;35m
+CYAN = \033[0;36m
+BLACK = \033[0;30
+WHITE = \033[0;37m
 
-#---------------------------------------------------------------------------------
-#Do not edit below this line
-#---------------------------------------------------------------------------------
+# Colors
+BYELLOW = \033[1;33m
+BGREEN = \033[1;32m
+BBLUE = \033[1;34m
+BRED = \033[1;31m
+BPURPLE = \033[1;35m
+BCYAN = \033[1;36m
+BBLACK = \033[1;30m
+BWHITE = \033[1;37m
 
-#---------------------------------------------------------------------------------
-#Source and object files
-SRCS		= $(wildcard $(SRCS_DIR)*.c)
-BNS_SRCS	= $(wildcard $(BNS_SRCS_DIR)*.c)
+# One Line Output
+OL =\e[1A\r\033[K
 
-#Object files
-OBJS		= $(addprefix $(OBJS_DIR), $(notdir $(SRCS:.c=.o)))
-BNS_OBJS	= $(addprefix $(OBJS_DIR), $(notdir $(BNS_SRCS:.c=.o)))
-#---------------------------------------------------------------------------------
+#______________________________________________________________________________#
+############################### Includes #######################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
 
-#Default Make
-all: $(OBJS_DIR) $(LIBFT) $(TARGET) bonus
+INC_DIR = ./inc
+INCLUDES += -I $(INC_DIR)
+INCLUDES += -I $(LIB_DIR)/inc
 
-#Compile
-$(TARGET): $(OBJS) $(MAIN_DIR)$(TARGET).c
-	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
-	@if [ $(COUNT) = 0 ]; then echo -n "["; fi
+#______________________________________________________________________________#
+############################### Headers ########################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+HEADER += push_swap.h
+
+vpath %.h $(INC_DIR)
+
+#______________________________________________________________________________#
+############################### Path Sources ###################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+SRCS_DIR = ./srcs
+DIR_PSW = $(SRCS_DIR)/push_swap
+DIR_CHK = $(SRCS_DIR)/checker
+
+#______________________________________________________________________________#
+############################### SOURCES ########################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+# push_swap_ft
+SRCS += stack_core_1.c
+SRCS += stack_core_2.c
+SRCS += push_swap_util.c
+SRCS += push.c
+SRCS += swap.c
+SRCS += rotate.c
+SRCS += reverse.c
+SRCS += get_input.c
+SRCS += stack_info.c
+SRCS += run.c
+SRCS += cost_ft.c
+SRCS += cost_op.c
+SRCS += stack_adv_op.c
+SRCS += sort.c
+
+# checker_ft
+CHK_SRCS += checker_util.c
+
+#______________________________________________________________________________#
+############################### Attribution ####################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+vpath %.c $(DIR_PSW)
+vpath %.c $(DIR_CHK)
+
+#______________________________________________________________________________#
+############################### Objects ########################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+OBJS_DIR = ./objs
+OBJS = $(patsubst %.c, $(OBJS_DIR)/%.o, $(SRCS))
+CHK_OBJS = $(patsubst %.c, $(OBJS_DIR)/%.o, $(CHK_SRCS))
+
+#______________________________________________________________________________#
+############################### Counter ########################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+TOTAL	= $(words $(SRCS) $(CHK_SRCS))
+COUNT	= 0
+
+#______________________________________________________________________________#
+############################### Rules ##########################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+#_____Build_____#
+all: $(LIBFT) $(NAME) $(CHECKER)
+	@echo "--▶ $(BGREEN)all\t$(GREEN)done ✅$(NC)"
+	@echo "--------------------------------------------------"
+
+# Push_swap
+$(NAME): $(OBJS) $(DIR_PSW)/$(NAME).c
+	@$(CC) $(CFLAGS) $^ $(LDFLAGS) $(INCLUDES) -o $@
+    #-----Output-----#
+	@printf "$(OL)$(BCYAN)[%2d/%2d]%3d%%\t$(CYAN)All files compiled$(NC)\n" $(COUNT) $(TOTAL) $(PERCENT)
+	@echo "▶$(BGREEN)$(NAME)\t$(GREEN)Executable created 🆗\n$(NC)"
+
+$(OBJS): $(OBJS_DIR)/%.o: %.c | $(LIBFT) $(OBJS_DIR) where
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+    #-----Output-----#
+	@if [ $(COUNT) = 0 ]; then echo ""; fi
 	@$(eval COUNT=$(shell echo $$(($(COUNT)+1))))
-	@echo -n "$(YELLOW)$(IGREY).$(RESET)"
-	@echo "]"
-	@echo "$(GREEN)Push_Swap .exe created ->$(RESET)"
-	@echo "$(COUNT) files compiled"
-	@echo "____________________\n"
+	@$(eval PERCENT:=$(shell echo $$((100*$(COUNT)/$(TOTAL)))))
+	@printf "$(OL)$(BCYAN)[%2d/%2d]%3d%%\t$(CYAN)Compiling %s$(NC)\n" $(COUNT) $(TOTAL) $(PERCENT) $<
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c
-	@if [ $(COUNT) = 0 ]; then echo -n "$(GREEN)Compiling Push_Swap$(RESET)\n["; fi
-	@echo -n "$(YELLOW)$(IGREY).$(RESET)"
-	@$(CC) $(CFLAGS) $(INCLUDES) -c  $< -o $@
+# Checker
+$(CHECKER): $(OBJS) $(CHK_OBJS) $(DIR_CHK)/$(CHECKER).c
+	@$(CC) $(CFLAGS) $^ $(LDFLAGS) $(INCLUDES) -o $@
+    #-----Output-----#
+	@printf "$(OL)$(BCYAN)[%2d/%2d] %3d%%\t$(CYAN)All files compiled$(NC)\n" $(COUNT) $(TOTAL) $(PERCENT)
+	@echo "▶$(BGREEN)$(CHECKER)\t$(GREEN)Executable created 🆗$(NC)"
+
+$(CHK_OBJS): $(OBJS_DIR)/%.o: %.c | $(LIBFT) $(OBJS_DIR) where
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+    #-----Output-----#
+	@if [ $(COUNT) = 0 ]; then echo ""; fi
 	@$(eval COUNT=$(shell echo $$(($(COUNT)+1))))
+	@$(eval PERCENT:=$(shell echo $$((100*$(COUNT)/$(TOTAL)))))
+	@printf "$(OL)$(BCYAN)[%2d/%2d] %3d%%\t\t$(CYAN)Compiling %s\t[%d%%]$(NC)\n" $(COUNT) $(TOTAL) $(PERCENT) $<
 
+# Libraries
 $(LIBFT):
 	@make --no-print-directory all -C $(LIB_DIR)
 
-#Bonus command
-bonus: $(OBJS_DIR) $(CHECKER)
-
-$(CHECKER): $(OBJS) $(BNS_OBJS) $(MAIN_DIR)$(CHECKER).c
-	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
-	@if [ $(COUNT_BONUS) = 0 ]; then echo -n "["; fi
-	@$(eval COUNT_BONUS=$(shell echo $$(($(COUNT_BONUS)+1))))
-	@echo -n "$(YELLOW)$(IGREY).$(RESET)"
-	@echo "$(GREEN)checker .exe added ->$(RESET)"
-	@echo "$(COUNT_BONUS) files compiled"
-	@echo "____________________\n"
-
-$(OBJS_DIR)%.o: $(BNS_SRCS_DIR)%.c
-	@$(CC) $(CFLAGS) $(INCLUDES) -c  $< -o $@
-	@$(eval COUNT_BONUS=$(shell echo $$(($(COUNT_BONUS)+1))))
-
-#Directories
+# Directories
 $(OBJS_DIR):
-	@mkdir -p $(OBJS_DIR)
+	@mkdir $@
 
-$(BNS_OBJS_DIR):
-	@mkdir -p $(BNS_OBJS_DIR)
+bonus: all
 
-#Clean only Object files
-clean:
-	@rm -rf $(OBJS_DIR) $(BNS_OBJS_DIR)
+#_____Clean_____#
+clean: lclean where_c
+	@rm -rf $(OBJS_DIR)
+    #-----Output-----#
+	@echo "▶ $(BYELLOW)clean $(YELLOW)Object files removed from Push_Swap ⭕$(NC)"
+	@echo "--▶ $(BYELLOW)clean$(YELLOW) done ✅$(NC)"
+
+# Libraries Clean
+lclean:
 	@make --no-print-directory clean -C $(LIB_DIR)
 
-#Full Clean, Object and Binary files
 fclean: clean
-	@rm -f $(TARGET)
-	@rm -f $(CHECKER)
 	@rm -f $(LIBFT)
+	@rm -f $(NAME)
+	@rm -f $(CHECKER)
+    #-----Output-----#
+	@echo "▶ $(BRED)fclean $(RED)libft.a removed ❌$(NC)"
+	@echo "\t$(RED)$(NAME) removed ❌$(NC)"
+	@echo "\t$(RED)$(CHECKER) removed ❌$(NC)"
+	@echo "--▶ $(BRED)fclean$(RED) done ✅$(NC)"
 
-#Remake
+# Current Make
+where_c:
+	@echo "$(BBLACK)>push_swap$(NC)"
+
+where:
+	@echo "$(BBLACK)>push_swap$(NC)"
+
 re: fclean all
 
-#Non-File Targets
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re

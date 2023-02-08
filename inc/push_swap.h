@@ -6,14 +6,14 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 15:01:58 by maaliber          #+#    #+#             */
-/*   Updated: 2023/01/30 15:55:11 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/02/07 16:30:22 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "../libft/inc/libft.h"
+# include "libft.h"
 
 /*Stack structure - Chained list with index and run number*/
 typedef struct s_stack

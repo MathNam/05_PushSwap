@@ -1,85 +1,227 @@
-#Compiler and Linker
-CC          = cc
+#______________________________________________________________________________#
+############################### Target Names ###################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
 
-#Target .a
-TARGET		= libft.a
+# Name
+NAME = libft.a
 
-#Directories, Sources, Objects
-SRCS_DIR	= srcs/
-SUB_DIRS	= lib/ gnl/ ftprintf/
-OBJS_DIR	= objs/
+#______________________________________________________________________________#
+############################### Compiler #######################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
 
-#Flags, Libraries and Includes
-INCLUDES	= -I ./inc/
-CFLAGS		= -Wall -Werror -Wextra
+# Compiler
+CC = cc 
 
-#Colors
-RESET = \033[0;39m
-GRAY = \033[0;90m
-RED = \033[1;31m
-GREEN = \033[1;32m
-YELLOW = \033[0;93m
-BLUE = \033[1;34m
-PURPLE = \033[1;35m
-CYAN = \033[0;96m
-WHITE = \033[0;97m
+# Compiler Flags
+CFLAGS = -Wall -Wextra -Werror
 
-#Inverted, i.e. colored backgrounds
-IGREY=\033[40m
-IRED=\033[41m
-IGREEN=\033[42m
-IYELLOW=\033[43m
-IBLUE=\033[44m
-IPURPLE=\033[45m
-ICYAN=\033[46m
-IWHITE=\033[47m
+#______________________________________________________________________________#
+############################### Print Variables ################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
 
-#Counter
-COUNT = 0
+# Reset
+NC = \033[0m
 
-#---------------------------------------------------------------------------------
-#Do not edit below this line
-#---------------------------------------------------------------------------------
+# Colors
+YELLOW = \033[0;33m
+GREEN = \033[0;32m
+BLUE = \033[0;34m
+RED = \033[0;31m
+PURPLE = \033[0;35m
+CYAN = \033[0;36m
+BLACK = \033[0;30
+WHITE = \033[0;37m
 
-#---------------------------------------------------------------------------------
-#Source and object files
-SRCS		:= $(foreach dir, $(SUB_DIRS), $(wildcard $(SRCS_DIR)$(dir)*.c))
+# Bold
+BYELLOW = \033[1;33m
+BGREEN = \033[1;32m
+BBLUE = \033[1;34m
+BRED = \033[1;31m
+BPURPLE = \033[1;35m
+BCYAN = \033[1;36m
+BBLACK = \033[1;30m
+BWHITE = \033[1;37m
 
-#Object files
-OBJS		:= $(addprefix $(OBJS_DIR),$(notdir $(SRCS:.c=.o)))
-#---------------------------------------------------------------------------------
+# Background
+On_Black = \033[40m       # Black
+On_Red = \033[41m         # Red
+On_Green = \033[42m       # Green
+On_Yellow = \033[43m      # Yellow
+On_Blue = \033[44m        # Blue
+On_Purple = \033[45m      # Purple
+On_Cyan = \033[46m        # Cyan
+On_White = \033[47m       # White
 
-#Default Make
-all: $(OBJS_DIR) $(TARGET)
+# One Line Output
+OL =\e[1A\r\033[K
 
-#Compile
-$(TARGET): $(OBJS_DIR) $(OBJS)
-	@ar rcs $(TARGET) $(OBJS)
-	@echo "]"
-	@echo "$(BLUE)libft created ->$(RESET)"
-	@echo "$(COUNT) files compiled"
-	@echo "____________________\n"
+#______________________________________________________________________________#
+############################### Includes #######################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
 
-$(OBJS_DIR)%.o : $(SRCS_DIR)/*/%.c
-	@if [ $(COUNT) = 0 ]; then echo -n "$(BLUE)Compiling Libft$(RESET)\n["; fi
-	@echo -n "$(YELLOW)$(IGREY).$(RESET)"
+INC_DIR = ./inc
+INCLUDES += -I $(INC_DIR)
+
+#______________________________________________________________________________#
+############################### Headers ########################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+HEADER += libft.h
+
+vpath %.h $(INC_DIR)
+
+#______________________________________________________________________________#
+############################### Path Sources ###################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+SRCS_DIR = ./srcs
+PATH_SRCS_CTYPE = $(SRCS_DIR)/ctype
+PATH_SRCS_STR = $(SRCS_DIR)/str
+PATH_SRCS_MEM = $(SRCS_DIR)/mem
+PATH_SRCS_IO = $(SRCS_DIR)/io
+PATH_SRCS_STD = $(SRCS_DIR)/std
+PATH_SRCS_PRINTF = $(SRCS_DIR)/io/ftprintf
+PATH_SRCS_GNL = $(SRCS_DIR)/gnl
+
+#______________________________________________________________________________#
+############################### SOURCES ########################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+# ctype
+SRCS += ft_isalnum.c
+SRCS += ft_isalpha.c
+SRCS += ft_isascii.c
+SRCS += ft_isdigit.c
+SRCS += ft_isprint.c
+SRCS += ft_issign.c
+SRCS += ft_isspace.c
+SRCS += ft_tolower.c
+SRCS += ft_toupper.c
+
+# string
+SRCS += ft_strchr.c
+SRCS += ft_strdup.c
+SRCS += ft_striteri.c
+SRCS += ft_strjoin.c
+SRCS += ft_strlcat.c
+SRCS += ft_strlcpy.c
+SRCS += ft_strlen.c
+SRCS += ft_strmapi.c
+SRCS += ft_strncmp.c
+SRCS += ft_strnstr.c
+SRCS += ft_strrchr.c
+SRCS += ft_strtrim.c
+SRCS += ft_substr.c
+
+# mem
+SRCS += ft_bzero.c
+SRCS += ft_calloc.c
+SRCS += ft_memchr.c
+SRCS += ft_memcmp.c
+SRCS += ft_memcpy.c
+SRCS += ft_memmove.c
+SRCS += ft_memset.c
+
+# io
+SRCS += ft_putchar_fd.c
+SRCS += ft_putendl_fd.c
+SRCS += ft_putnbr_fd.c
+SRCS += ft_putstr_fd.c
+
+# std
+SRCS += ft_atoi_base.c
+SRCS += ft_atoi.c
+SRCS += ft_index.c
+SRCS += ft_ischarset.c
+SRCS += ft_itoa.c
+SRCS += ft_split.c
+
+# ft_printf
+SRCS += list_ft.c
+SRCS += ft_printf_util.c
+SRCS += parse_format.c
+SRCS += format_error.c
+SRCS += conversion.c
+SRCS += mod_p1.c
+SRCS += mod_p2.c
+SRCS += output.c
+SRCS += process_arg_p1.c
+SRCS += process_arg_p2.c
+SRCS += ft_printf.c
+
+# get_next_line
+SRCS += get_next_line_util.c
+SRCS += get_next_line.c
+
+#______________________________________________________________________________#
+############################### Attribution ####################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+vpath %.c $(PATH_SRCS_CTYPE)
+vpath %.c $(PATH_SRCS_STR)
+vpath %.c $(PATH_SRCS_MEM)
+vpath %.c $(PATH_SRCS_IO)
+vpath %.c $(PATH_SRCS_STD)
+vpath %.c $(PATH_SRCS_PRINTF)
+vpath %.c $(PATH_SRCS_GNL)
+
+#______________________________________________________________________________#
+############################### Objects ########################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+OBJS_DIR = ./objs
+OBJS = $(patsubst %.c, $(OBJS_DIR)/%.o, $(SRCS))
+
+#______________________________________________________________________________#
+############################### Counter ########################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+TOTAL	= $(words $(SRCS))
+COUNT	= 0
+
+#______________________________________________________________________________#
+############################### Rules ##########################################
+#‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
+
+#_____Build_____#
+all: where $(OBJS_DIR) $(NAME)
+	@echo "--▶ $(BGREEN)all\t$(GREEN)done ✅$(NC)"
+	@echo "--------------------------------------------------"
+
+$(NAME): $(OBJS) 
+	@ar rcs $@ $^
+    #-----Output-----#
+	@printf "$(OL)$(BCYAN)[%2d/%2d] %3d%%\t$(CYAN)All files compiled\n$(NC)" $(COUNT) $(TOTAL) $(PERCENT)
+	@echo "▶ $(BGREEN)$(NAME)\t$(GREEN)Library created 🆗$(NC)"
+
+$(OBJS): $(OBJS_DIR)/%.o: %.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+    #-----Output-----#
+	@if [ $(COUNT) = 0 ]; then echo ""; fi
 	@$(eval COUNT=$(shell echo $$(($(COUNT)+1))))
+	@$(eval PERCENT:=$(shell echo $$((100*$(COUNT)/$(TOTAL)))))
+	@printf "$(OL)$(BCYAN)[%2d/%2d] %3d%%\t$(CYAN)Compiling %s\n$(NC)" $(COUNT) $(TOTAL) $(PERCENT) $< 
 
-#Directories
 $(OBJS_DIR):
-	@mkdir -p $(OBJS_DIR)
+	@mkdir $@
 
-#Clean only Object files
-clean:
+#_____Clean_____#
+clean: where
 	@rm -rf $(OBJS_DIR)
+    #-----Output-----#
+	@echo "▶ $(BYELLOW)clean\t$(YELLOW)Object files removed from libft ⭕$(NC)"
+	@echo "--▶ $(BYELLOW)clean$(YELLOW) done ✅$(NC)"
 
-#Full Clean, Object and Binary files
 fclean: clean
-	@rm -f $(TARGET)
+	@rm -f $(NAME)
+    #-----Output-----#
+	@echo "▶ $(BRED)fclean\t$(RED)Library removed ❌$(NC)"
+	@echo "--▶ $(BRED)fclean$(RED) done ✅$(NC)"
 
-#Remake
+# Current Make
+where:
+	@echo "$(BBLACK)>libft $(NC)"
+
 re: fclean all
 
-#Non-File Targets
 .PHONY: all clean fclean re
