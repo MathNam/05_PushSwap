@@ -11,7 +11,7 @@ CHECKER	= ./checker
 #‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
 
 # Compiler
-CC = cc 
+CC = cc
 
 # Compiler Flags
 CFLAGS = -Wall -Wextra -Werror
@@ -129,8 +129,8 @@ COUNT	= 0
 #‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾#
 
 #_____Build_____#
-all: $(LIBFT) $(NAME) $(CHECKER)
-	@echo "--▶ $(BGREEN)all\t$(GREEN)done ✅$(NC)"
+all: $(LIBFT) $(NAME)
+	@echo "--▶ $(BGREEN)all\t$(GREEN)done$(NC)"
 	@echo "--------------------------------------------------"
 
 # Push_swap
@@ -138,7 +138,7 @@ $(NAME): $(OBJS) $(DIR_PSW)/$(NAME).c
 	@$(CC) $(CFLAGS) $^ $(LDFLAGS) $(INCLUDES) -o $@
     #-----Output-----#
 	@printf "$(OL)$(BCYAN)[%2d/%2d]%3d%%\t$(CYAN)All files compiled$(NC)\n" $(COUNT) $(TOTAL) $(PERCENT)
-	@echo "▶$(BGREEN)$(NAME)\t$(GREEN)Executable created 🆗\n$(NC)"
+	@echo "▶$(BGREEN)$(NAME)\t$(GREEN)Executable created$(NC)"
 
 $(OBJS): $(OBJS_DIR)/%.o: %.c | $(LIBFT) $(OBJS_DIR) where
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
@@ -153,7 +153,7 @@ $(CHECKER): $(OBJS) $(CHK_OBJS) $(DIR_CHK)/$(CHECKER).c
 	@$(CC) $(CFLAGS) $^ $(LDFLAGS) $(INCLUDES) -o $@
     #-----Output-----#
 	@printf "$(OL)$(BCYAN)[%2d/%2d] %3d%%\t$(CYAN)All files compiled$(NC)\n" $(COUNT) $(TOTAL) $(PERCENT)
-	@echo "▶$(BGREEN)$(CHECKER)\t$(GREEN)Executable created 🆗$(NC)"
+	@echo "▶$(BGREEN)$(CHECKER)\t$(GREEN)Executable created$(NC)"
 
 $(CHK_OBJS): $(OBJS_DIR)/%.o: %.c | $(LIBFT) $(OBJS_DIR) where
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
@@ -171,14 +171,14 @@ $(LIBFT):
 $(OBJS_DIR):
 	@mkdir $@
 
-bonus: all
+bonus: all $(CHECKER)
 
 #_____Clean_____#
 clean: lclean where_c
 	@rm -rf $(OBJS_DIR)
     #-----Output-----#
-	@echo "▶ $(BYELLOW)clean $(YELLOW)Object files removed from Push_Swap ⭕$(NC)"
-	@echo "--▶ $(BYELLOW)clean$(YELLOW) done ✅$(NC)"
+	@echo "▶ $(BYELLOW)clean $(YELLOW)Object files removed from Push_Swap$(NC)"
+	@echo "--▶ $(BYELLOW)clean$(YELLOW) done$(NC)"
 
 # Libraries Clean
 lclean:
@@ -189,10 +189,10 @@ fclean: clean
 	@rm -f $(NAME)
 	@rm -f $(CHECKER)
     #-----Output-----#
-	@echo "▶ $(BRED)fclean $(RED)libft.a removed ❌$(NC)"
-	@echo "\t$(RED)$(NAME) removed ❌$(NC)"
-	@echo "\t$(RED)$(CHECKER) removed ❌$(NC)"
-	@echo "--▶ $(BRED)fclean$(RED) done ✅$(NC)"
+	@echo "▶ $(BRED)fclean $(RED)libft.a removed$(NC)"
+	@echo "\t$(RED)$(NAME) removed$(NC)"
+	@echo "\t$(RED)$(CHECKER) removed$(NC)"
+	@echo "--▶ $(BRED)fclean$(RED) done$(NC)"
 
 # Current Make
 where_c:

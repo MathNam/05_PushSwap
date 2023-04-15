@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 17:59:21 by maaliber          #+#    #+#             */
-/*   Updated: 2023/02/07 14:32:32 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/03/10 12:22:53 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	*init_data(char **av, size_t size)
 	while (i < size)
 	{
 		if (!is_number(av[i + 1]))
-			return (NULL);
+			return (free(data), NULL);
 		data[i] = ft_atoi(av[i + 1]);
 		i++;
 	}

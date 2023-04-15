@@ -6,7 +6,7 @@
 /*   By: maaliber <maaliber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:15:15 by maaliber          #+#    #+#             */
-/*   Updated: 2023/02/07 14:32:32 by maaliber         ###   ########.fr       */
+/*   Updated: 2023/04/12 13:55:36 by maaliber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ size_t	max_arr(size_t *arr, size_t size)
 
 void	err_msg(void)
 {
-	ft_printf("Error\n");
+	write(2, "Error\n", 6);
 }
 
 void	printf_stack(t_stack *a_stk, t_stack *b_stk)
